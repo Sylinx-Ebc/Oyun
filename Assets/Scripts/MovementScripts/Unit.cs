@@ -34,7 +34,7 @@ public class Unit : MonoBehaviour
 
     private Animator animator;
 
-    private Health healt;
+    private Health health;
 
     public int MovementPoints { get => movementPoints; }
     public int DamagePoints { get => damagePoint; }
@@ -49,16 +49,18 @@ public class Unit : MonoBehaviour
         offsetCoordinates = ConvertPositionToOffset(transform.position);
         glowHighlight = GetComponent<GlowHighlight>();
         animator = GetComponent<Animator>();
-        healt = GetComponent<Health>();
+        health = GetComponent<Health>();
 
 
     }
 
     public void Update()
     {
-        isAlive = healt.aliveCheck();
 
-        if (!healt.aliveCheck())
+
+        isAlive = health.aliveCheck();
+
+        if (!health.aliveCheck())
         {
             Death();
         }
@@ -69,7 +71,7 @@ public class Unit : MonoBehaviour
     public void DamageDealt(int damage)
     {
         ReceiveHit();
-        healt.ModifyHealth(damage * (-1));
+        health.ModifyHealth(damage * (-1));
 
     }
 
@@ -103,11 +105,15 @@ public class Unit : MonoBehaviour
     }
 
     private IEnumerator RotationCoroutine(Vector3 endPosition, float rotationDuration,Unit unitReference)
-    {
+    {  
         Quaternion startRotation = transform.rotation;
+        //Debug.Log("Start rotation" + startRotation);
         endPosition.y = transform.position.y;
+        //Debug.Log("End position y" + endPosition.y);
         Vector3 direction = endPosition - transform.position;
+        //Debug.Log("Direction" + direction);
         Quaternion endRotation = Quaternion.LookRotation(direction, Vector3.up);
+        //Debug.Log("End position" + endPosition);
 
         if (Mathf.Approximately(Mathf.Abs(Quaternion.Dot(startRotation, endRotation)), 1.0f) == false)
         {

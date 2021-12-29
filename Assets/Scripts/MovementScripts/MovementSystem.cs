@@ -8,6 +8,9 @@ public class MovementSystem : MonoBehaviour
     private BFSResult movementRange = new BFSResult();
     private List<Vector3Int> currentPath = new List<Vector3Int>();
 
+    Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
+
+
     public void HideRange(HexGrid hexGrid)
     {
         foreach (Vector3Int hexPosition in movementRange.GetRangePositions())
@@ -21,13 +24,22 @@ public class MovementSystem : MonoBehaviour
     {
         CalcualteRange(selectedUnit, hexGrid);
 
+        hexTileDict = hexGrid.GetHexTileDict();
+
+        foreach(var hex in hexTileDict)
+        {
+            Debug.Log("Hex key: " + hex.Key + "Hex Value: " + hex.Value);
+        }
+
         Vector3Int unitPos = hexGrid.GetClosestHex(selectedUnit.transform.position);
+
 
         foreach (Vector3Int hexPosition in movementRange.GetRangePositions())
         {
             //Debug.Log("SHOW RANGE hex position is " + hexPosition);
             if (unitPos == hexPosition)
                 continue;
+
             hexGrid.GetTileAt(hexPosition).EnableHighlight();
         }
     }

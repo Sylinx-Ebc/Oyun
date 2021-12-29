@@ -47,7 +47,8 @@ public class UnitManager : MonoBehaviour
                 this.selectedUnit.Attack();
                 Debug.Log("I am attacking with " + this.selectedUnit.DamagePoints + " damage");
                 this.selectedEnemy.DamageDealt(this.selectedUnit.DamagePoints);
-                PlayersTurn = false;
+                ClearOldEnemySelection();
+                ClearOldSelection();
             }
         }            
     }
@@ -194,7 +195,7 @@ public class UnitManager : MonoBehaviour
         else
         {
             movementSystem.MoveUnit(selectedUnit, this.hexGrid);
-            selectedUnit.Walk();
+            selectedUnit.Walk();// Animation
             PlayersTurn = false;
             selectedUnit.MovementFinished += ResetTurn;
             ClearOldSelection();

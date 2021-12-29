@@ -7,16 +7,28 @@ public class HexGrid : MonoBehaviour
 {
 
     Dictionary<Vector3Int, Hex> hexTileDict = new Dictionary<Vector3Int, Hex>();
-    Dictionary<Vector3Int, Unit> UnitTileDict = new Dictionary<Vector3Int, Unit>();
+
 
     Dictionary<Vector3Int, List<Vector3Int>> hexTileNeighboursDict = new Dictionary<Vector3Int, List<Vector3Int>>();
+
+
     private void Start()
+    {
+        foreach (Hex hex in FindObjectsOfType<Hex>())
+        {
+            hexTileDict[hex.HexCoords] = hex;
+
+        }
+    }
+
+    public Dictionary<Vector3Int, Hex> GetHexTileDict()
     {
         foreach (Hex hex in FindObjectsOfType<Hex>())
         {
             hexTileDict[hex.HexCoords] = hex;
         }
 
+        return hexTileDict;
     }
 
     public Hex GetTileAt(Vector3Int hexCoordinates)
